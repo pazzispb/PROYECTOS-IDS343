@@ -14,9 +14,9 @@ Fecha: 22 - Agosto - 2022
 */
 
 #include <iostream>
-#include <stdlib.h> //new
 #include <cctype> //isdigit
-#include <string> //stoi
+#include <string> //stoi    - disponible para c++11
+#include <conio.h> //_getch
 
 using namespace std;
 
@@ -43,12 +43,16 @@ int main(){
 	
 	do{
 		system("cls");
-		cout<<"MENU" << endl;
-		cout<<"1) Push" << endl;
-		cout<<"2) Pop" << endl;
-		cout<<"3) Desplegar pila" <<endl;
-		cout<<"4) Salir del programa" <<endl;
-		cin >> opcion;
+	    cout<<"|-----------------------------|" << endl;
+		cout<<"|            MENU             |" << endl;
+		cout<<"|-----------------------------|" << endl;
+		cout<<"|     1) Push                 |" << endl;
+		cout<<"|     2) Pop                  |" << endl;
+		cout<<"|     3) Desplegar pila       |" <<endl;
+		cout<<"|     4) Salir del programa   |" <<endl;
+		cout<<"|-----------------------------|" <<endl;
+		cout<<"\nElija una opcion: ";
+		opcion = _getch(); //leer el caracter
 		system("cls");
 		switch (opcion) //Se toma el caracter de la primera posicion
 		{
@@ -59,7 +63,7 @@ int main(){
 			}
 			case '2':{
 				bool llena = Pop(pila, dato); //elimino el nodo de la pila y verifico si se borro con exito
-				if(llena == true) cout<<"El dato "<<dato<< " fue borrado" << endl;
+				if(llena == true) cout<<"El dato "<<dato<< " fue borrado." << endl;
 				break;
 			}
 			case '3':{
@@ -130,6 +134,7 @@ int CapturarEntrada()
 		}
 	} while (correcta == false); //repetir mientras que la entrada no sea valida
 	return stoi(entrada); //retorna la entrada convertida en entero
+	return 0;
 }
 
 bool ValidarEntrada(string entrada){ //true - es valida       false - no es valida 
