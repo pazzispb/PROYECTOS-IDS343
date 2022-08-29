@@ -28,12 +28,12 @@ struct Nodo{
 
 //Prototipo de metodos
 void Enqueue(Nodo*& tail, Nodo*& header, int dato); //Agregar un nodo al final de la cola
-bool Dequeue(Nodo*& header, int& dato); //Eliminar el primer nodo de la cola
+bool Dequeue(Nodo*& header, Nodo*& tail, int& dato); //Eliminar el primer nodo de la cola
 void InsertarPrioridad(Nodo*& header, Nodo*& tail, int dato, int prioridad); //Insertar en una prioridad en especifico. 
 															 //Se permiten del 0 al 15. 
 														    //De 16 en adelante se coloca al final
-void DesplegarCola(Nodo*& header);
-int CapturarEntrada();
+void DesplegarCola(Nodo*& header, Nodo*& tail);
+int CapturarEntrada(string mensaje);
 bool ValidarEntrada(string entrada);
 
 //funcion principal
@@ -48,7 +48,7 @@ int main(){
 	do{
 		system("cls");
 	    cout<<"|--------------------------------|" << endl;
-		cout<<"|               MENU             |" << endl;
+		cout<<"|             MENU               |" << endl;
 		cout<<"|--------------------------------|" << endl;
 		cout<<"|     1) Enqueue                 |" << endl;
 		cout<<"|     2) Dequeue                 |" << endl;
@@ -63,28 +63,25 @@ int main(){
 		{
 			case '1':{
 				cout << "ENQUEUE" << endl;
-				cout << "Ingrese el dato: ";
-				dato = CapturarEntrada(); //capturo el dato
+				dato = CapturarEntrada("Ingrese el dato para agregar a la cola: "); //capturo el dato
 				Enqueue(tail, header, dato); //se el nodo al final
 				break;
 			}
 			case '2':{
 				cout << "DEQUEUE" << endl;
-				bool llena = Dequeue(header, dato); //elimino el nodo de la pila del principio y verifico si se borro con exito
+				bool llena = Dequeue(header, tail, dato); //elimino el nodo de la pila del principio y verifico si se borro con exito
 				if(llena == true) cout<<"El dato "<<dato<< " fue borrado." << endl;
 				break;
 			}
 			case '3':{
 				cout << "DESPLEGAR COLA" << endl;
-				DesplegarCola(header); //muestra la pila completa
+				DesplegarCola(header, tail); //muestra la pila completa
 				break;
 			}
 			case '4':{
 				cout << "INSERTAR CON PRIORIDAD" << endl;
-				cout << "Ingrese el dato: ";
-				dato = CapturarEntrada(); //capturo el dato
-				cout << "Ingrese la prioridad: ";
-				prioridad = CapturarEntrada(); //captura la priorioridad
+				dato = CapturarEntrada("Ingrese el dato para agregar a la cola: "); //capturo el dato
+				prioridad = CapturarEntrada("Ingrese la prioridad con la que desea ingresar el dato: "); //captura la priorioridad
 				InsertarPrioridad(header, tail, dato, prioridad); //se el nodo al final
 				break;
 			}
@@ -119,10 +116,11 @@ void Enqueue(Nodo*& tail, Nodo*& header, int dato){
 	cout<<"Nodo agregado." << endl;
 }
 
-bool Dequeue(Nodo*& header, int& dato){ //true - si se borro el nodo      false - si estaba vacia y no se pudo realizar la operacion
+bool Dequeue(Nodo*& header, Nodo*& tail, int& dato){ //true - si se borro el nodo      false - si estaba vacia y no se pudo realizar la operacion
 	Nodo *auxiliar = header; //Nodo auxiliar con el elemento que esta en la cima de la pila
-	if(auxiliar!=NULL) //Si la cola no esta vacia
-	{ 
+	if(header != NULL) //Si la cola no esta vacia
+	{
+		if(header == tail) tail = NULL; 
 		header = auxiliar->siguiente; //La nueva cima, va a ser el elemento que esta despues del tope
 		dato = auxiliar->dato; //dato que estoy borrando
 		delete auxiliar; //borro el nodo
@@ -134,10 +132,10 @@ bool Dequeue(Nodo*& header, int& dato){ //true - si se borro el nodo      false 
 	}
 }
 
-void DesplegarCola(Nodo*& header){
+void DesplegarCola(Nodo*& header, Nodo*& tail){
 	int dato; //dato que voy a desplegar
 	do{ //mientras la cola no este vacia
-		bool llena = Dequeue(header, dato); //elimino el nodo y verifico si se elimino con exito
+		bool llena = Dequeue(header, tail, dato); //elimino el nodo y verifico si se elimino con exito
 		if(llena == true) cout << dato << endl; //imprimo el dato del nodo que se borro
 	}while(header != NULL); //mientras la pila no este nula
 }
@@ -181,24 +179,25 @@ void InsertarPrioridad(Nodo*& header, Nodo*& tail, int dato, int prioridad){
 		}
 	}
 	else{
-		cout<<"La prioridad insertada sobrepasa la cantidad de elementos de la cola.\nSe insertará al final"  << endl;
+		cout<<"La prioridad insertada sobrepasa la cantidad de elementos de la cola.\nSe insertara al final"  << endl;
 		Enqueue(tail, header, dato); //se hace un enqueue
 	}
 }
-int CapturarEntrada()			  
+int CapturarEntrada(string mensaje)			  
 {
 	string entrada; //variable para almacenar la entrada
 	bool correcta; //variable para verificar si la entrada es valida
 	do{
 	//se repetira hasta que el usuario ingrese una entrada valida 
+		cout << mensaje;
 		cin >> entrada; //Tome la entrada por pantalla
 		correcta = ValidarEntrada(entrada); //Llama a la funcion para validar la entrada
 		if(correcta == false) //si no es valida
 		{
 			cout << "Entrada no valida. Solo se permite un numero entero"<<endl;
 			system("pause");
-			system("cls");	
 		}
+		cout << endl;
 	} while (correcta == false); //repetir mientras que la entrada no sea valida
 	return stoi(entrada); //retorna la entrada convertida en entero
 	return 0;
