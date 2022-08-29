@@ -213,16 +213,17 @@ void Eliminar(Nodo *&list, int dato){
         anterior = auxiliar;  //anterior se coloca en donde esta auxiliar
         auxiliar = auxiliar->next; // movemos a auxiliar hacia su siguiente.
     }
-    if(anterior == NULL){ //si el elemento a eliminar se encuentra al inicio de la lista
+    
+	if(auxiliar == NULL){ // Si auxiliar llega a NULL entonces no se encuentra el elemento.
+        cout<<"Elemento "<<dato<< " no encontrado en la lista.\n";
+        return;
+    }
+    
+	if(anterior == NULL){ //si el elemento a eliminar se encuentra al inicio de la lista
         list = list->next; // la cabecera de la lista va a ser el siguiente del elemento a eliminar  
     }
     else{
         anterior->next = auxiliar->next; // Se le asigna como anterior al nodo que le sigue al elemento que se borro      
-    }
-    
-    if(auxiliar == NULL){ // Si auxiliar llega a NULL entonces no se encuentra el elemento.
-        cout<<"Elemento "<<dato<< " no encontrado en la lista.\n";
-        return;
     }
     
     delete auxiliar; // se elimina auxiliar

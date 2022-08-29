@@ -71,14 +71,14 @@ int main(){
 			case '2':{
 				cout << "DEQUEUE" << endl;
 				cout << "-------------------------------"<< endl;
-				bool llena = Dequeue(header, tail, dato); //elimino el nodo de la pila del principio y verifico si se borro con exito
-				if(llena == true) cout<<"El dato "<<dato<< " fue borrado." << endl;
+				bool exito = Dequeue(header, tail, dato); //elimino el nodo de la cola del principio y verifico si se borro con exito
+				if(exito == true) cout<<"El dato "<<dato<< " fue borrado." << endl;
 				break;
 			}
 			case '3':{
 				cout << "DESPLEGAR COLA" << endl;
 				cout << "-------------------------------"<< endl;
-				DesplegarCola(header, tail); //muestra la pila completa
+				DesplegarCola(header, tail); //muestra la cola completa
 				break;
 			}
 			case '4':{
@@ -108,7 +108,7 @@ int main(){
 void Enqueue(Nodo*& tail, Nodo*& header, int dato){
 	Nodo *nuevoNodo =  new Nodo(); //Crea un nuevo nodo en la memoria
 	nuevoNodo->dato = dato; //se le asigna el dato al nodo
-	nuevoNodo->siguiente = NULL; //se especifica que el nodo que le sigue será al que apunte la pila
+	nuevoNodo->siguiente = NULL; //se especifica que el nodo que le sigue será al que apunte la cola
 	if(header == NULL){ //si la cola esta vacia
 		header = nuevoNodo;
 		//el tail y el header apuntan al mismo nodo
@@ -121,7 +121,7 @@ void Enqueue(Nodo*& tail, Nodo*& header, int dato){
 }
 
 bool Dequeue(Nodo*& header, Nodo*& tail, int& dato){ //true - si se borro el nodo      false - si estaba vacia y no se pudo realizar la operacion
-	Nodo *auxiliar = header; //Nodo auxiliar con el elemento que esta en la cima de la pila
+	Nodo *auxiliar = header; //Nodo auxiliar con el elemento que esta en la cima de la cola
 	if(header != NULL) //Si la cola no esta vacia
 	{
 		if(header == tail) tail = NULL; 
@@ -139,9 +139,9 @@ bool Dequeue(Nodo*& header, Nodo*& tail, int& dato){ //true - si se borro el nod
 void DesplegarCola(Nodo*& header, Nodo*& tail){
 	int dato; //dato que voy a desplegar
 	do{ //mientras la cola no este vacia
-		bool llena = Dequeue(header, tail, dato); //elimino el nodo y verifico si se elimino con exito
-		if(llena == true) cout << dato << endl; //imprimo el dato del nodo que se borro
-	}while(header != NULL); //mientras la pila no este nula
+		bool exito = Dequeue(header, tail, dato); //elimino el nodo y verifico si se elimino con exito
+		if(exito == true) cout << dato << endl; //imprimo el dato del nodo que se borro
+	}while(header != NULL); //mientras la cola no este nula
 }
 
 void InsertarPrioridad(Nodo*& header, Nodo*& tail, int dato, int prioridad){
