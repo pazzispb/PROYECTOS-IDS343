@@ -63,23 +63,27 @@ int main(){
 		{
 			case '1':{
 				cout << "ENQUEUE" << endl;
+				cout << "-------------------------------"<< endl;
 				dato = CapturarEntrada("Ingrese el dato para agregar a la cola: "); //capturo el dato
 				Enqueue(tail, header, dato); //se el nodo al final
 				break;
 			}
 			case '2':{
 				cout << "DEQUEUE" << endl;
+				cout << "-------------------------------"<< endl;
 				bool llena = Dequeue(header, tail, dato); //elimino el nodo de la pila del principio y verifico si se borro con exito
 				if(llena == true) cout<<"El dato "<<dato<< " fue borrado." << endl;
 				break;
 			}
 			case '3':{
 				cout << "DESPLEGAR COLA" << endl;
+				cout << "-------------------------------"<< endl;
 				DesplegarCola(header, tail); //muestra la pila completa
 				break;
 			}
 			case '4':{
-				cout << "INSERTAR CON PRIORIDAD" << endl;
+				cout << "INSERTAR CON PRIORIDAD" << endl;				
+				cout << "-------------------------------"<< endl;
 				dato = CapturarEntrada("Ingrese el dato para agregar a la cola: "); //capturo el dato
 				prioridad = CapturarEntrada("Ingrese la prioridad con la que desea ingresar el dato: "); //captura la priorioridad
 				InsertarPrioridad(header, tail, dato, prioridad); //se el nodo al final
