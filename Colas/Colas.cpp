@@ -2,7 +2,7 @@
 // Materia - Estructuras de Datos y Algoritmos I
 /*
 
-Asunto: Elaborar un programa en C++ que simule una Cola.
+Asunto: Elaborar un programa en C++ que simule una Cola con prioridad.
 
 Autor:  Pazzis Paulino 1103790
         Huan Hao Wu 1104326
@@ -85,7 +85,7 @@ int main(){
 				cout << "INSERTAR CON PRIORIDAD" << endl;				
 				cout << "-------------------------------"<< endl;
 				dato = CapturarEntrada("Ingrese el dato para agregar a la cola: "); //capturo el dato
-				prioridad = CapturarEntrada("Ingrese la prioridad con la que desea ingresar el dato: "); //captura la priorioridad
+				prioridad = CapturarEntrada("Ingrese la prioridad (0-15) con la que desea ingresar el dato: "); //captura la priorioridad
 				InsertarPrioridad(header, tail, dato, prioridad); //se el nodo al final
 				break;
 			}
@@ -153,6 +153,7 @@ void InsertarPrioridad(Nodo*& header, Nodo*& tail, int dato, int prioridad){
 	//creacion del nodo a insertar
 	Nodo *nuevoNodo = new Nodo();
 	nuevoNodo->dato = dato;
+	
 	if(header==NULL){
 		cout<<"La cola esta vacia.\nSe insertara al principio"  << endl;
 		Enqueue(tail, header, dato); //se hace un enqueue
