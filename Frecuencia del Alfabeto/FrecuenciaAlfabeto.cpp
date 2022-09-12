@@ -37,27 +37,31 @@ void ImprimirFrecuencia();
 Nodo* BuscarLetra(unsigned char caracter);
 double CalcularPorcentaje(int frecuencia);
 
+void Gotoxy(short x, short y);
+
 //Variables globales
-int nCaracteres = 0;
-int nPalabras = 0;
+int nCaracteres = 0; //numero de caracteres del alfabeto español en el archivo
+int nPalabras = 0; //numero de palabras del archivo
+int nTotal = 0; //numero de caracteres total del archivo
 Nodo* lista = NULL;
 
 //Funcion principal
 int main(){
+	system("COLOR F1"); //SE DA UN COLOR DE FONDO (F=GRIS) Y COLOR (1 = AZUL) A LAS LETRAS
+	
 	//Configuracion del idioma
-	setlocale(LC_ALL, "spanish"); //Agregar el idioma español a C+
-	SetConsoleCP(1252); //Codificar la consola para que pueda tomar acentos
-    SetConsoleOutputCP(1252); //Codificar la consola para que despliegue acentos
-	
-	string ruta = "Ejemplo.txt";
-	
+	setlocale(LC_ALL, "spanish"); //Agregar el idioma español a C++
+	//Entrada de la ruta por pantalla
+	string ruta = "";
+	cout<< "Inserte la ruta del archivo: ";
+	cin>> ruta;
+	system("cls"); //borra toda la pantalla
 	LeerArchivo(ruta);
 	return 0;
 }
 
 //Definicion de funciones
-
-void LeerArchivo(string nombreArchivo){	
+void LeerArchivo(string nombreArchivo){
 	unsigned char caracter = ' '; //variable para cada caracter del archivo
 	bool caracterValido = false; //bandera para saber si el caracter pertenece al alfabeto español
 	bool palabraContada = true; //bandera para saber si ya una palabra fue agregada al conteo
@@ -69,10 +73,11 @@ void LeerArchivo(string nombreArchivo){
     else{
         while(!archivo.eof()){ //mientras no sea el final del archivo
         	caracter = archivo.get(); //lee un caracter del flujo
+        	nTotal++; //se le agrega uno al total de caracteres
             caracter = ConvertirCaracter(caracter); //covierte el caracter a formato estandar (sin acentos y minusculas)
 			caracterValido = VerificarCaracter(caracter); //valida que el caracter pertenezca al alfabeto español
-			if(palabraContada == false){ //si la palabra no ha sido contada
-				if(VerificarSeparadores(caracter)){ //si el caracter es un separador
+			if(VerificarSeparadores(caracter)){ //si la palabra no ha sido contada
+				if(palabraContada == false){ //si el caracter es un separador
 					nPalabras++; //suma al contador de palabras
 					palabraContada = true;	//di que la palabra ya se conto
 				}	
@@ -80,12 +85,12 @@ void LeerArchivo(string nombreArchivo){
 			if(caracterValido){ //si el caracter pertenece al alfabeto espanol
 				AgregarFrecuencia(caracter); //Suma a la frecuencia de la letra
 				nCaracteres++; //suma a la cantidad de caracteres del total
-				palabraContada = false; //di que la palabra no ha sido contada
+				palabraContada = false; //di que la palabra no ha sido contada, la estoy comenzando
 			}
         }
         archivo.close(); //cierra el flujo
+        ImprimirFrecuencia();
     }
-	ImprimirFrecuencia();
 }
 /*
 	Alfabeto
@@ -105,7 +110,7 @@ bool VerificarCaracter(unsigned char caracter){
 	bool caracterValido = false; //bandera para verificar si el caracter forma parte del alfabeto espanol
 		
 	if(caracter > 96 && caracter < 123) caracterValido = true; //si va de la a (97) - z (122)
-	else if (int(caracter) == 241) caracterValido = true; //si es una ñ (241)
+	else if (caracter == 241) caracterValido = true; //si es una ñ (241)
 	
 	return caracterValido;
 }
@@ -117,7 +122,7 @@ char ConvertirCaracter(unsigned char caracter){
 	else if (caracter == 233) return 'e'; //si es é, retorna e
 	else if (caracter == 277) return 'i'; //si es í, retorna i
 	else if (caracter == 243) return 'o'; //si es ó, retorna o
-	else if (caracter == 250) return 'u'; //si es ú, retorna u
+	else if (caracter == 250 || caracter == 129) return 'u'; //si es ú o u, retorna u
 	else return caracter; //de lo contrario retorna el mismo caracter
 }
 
@@ -149,7 +154,6 @@ void AgregarFrecuencia(unsigned char caracter){
 		auxiliar->frecuencia++; //se le suma 1 a su frecuencia
 	}
 }
-
 Nodo* BuscarLetra(unsigned char caracter){ //retorna la direccion en memoria del nodo con la letra
 	Nodo* auxiliar = lista;
 	while(auxiliar != NULL && auxiliar->letra != caracter){ //mientras auxiliar no sea nulo ni tampoco se haya llegado al caracter deseado
@@ -160,25 +164,52 @@ Nodo* BuscarLetra(unsigned char caracter){ //retorna la direccion en memoria del
 }
 
 void ImprimirFrecuencia(){
-	Nodo* auxiliar = lista; 
-	//DAR EL FORMATO
-	double frecuencia = 0;
-	cout<<"Cantidad de palabras: "<<nPalabras <<endl;
-	cout<<"Cantidad de caracteres del alfabeto: "<<nCaracteres <<endl;
-	while(auxiliar != NULL){
-		cout<<auxiliar->letra;
-		cout<<" ";
-		cout<<auxiliar->frecuencia;
-		cout<<" ";
-		cout<<CalcularPorcentaje(auxiliar->frecuencia)<<"%"<< endl;
-		frecuencia += CalcularPorcentaje(auxiliar->frecuencia);
-		auxiliar = auxiliar->siguiente;
+	if(nCaracteres > 0){
+		Nodo* auxiliar = lista; 
+		//DAR EL FORMATO
+		cout << "|--------------------------------------------------------|\n";
+		cout << "| Palabra contadas:                                      |\n";
+		cout << "| Cantidad de caracteres del alfabeto:                   |\n";
+		cout << "|--------------------------------------------------------|\n";
+		cout << "|     Caracter      |  Frecuencia  |     Porcentaje      |\n";
+		cout << "|--------------------------------------------------------|\n";
+		int horix = 9; // horix = posicion horizontal
+		int verty = 6; // vertY = posicion vertircal
+		Gotoxy(21,1);	
+		cout<<nPalabras;
+		Gotoxy(40,2);	
+	    cout<< nCaracteres;
+	    while(auxiliar != NULL){
+	    	Gotoxy(0,verty); cout<<"|";
+
+	    	
+			Gotoxy(horix, verty); cout<< auxiliar->letra;
+			Gotoxy(20,verty); cout<<"|";
+	
+			horix+=18;
+			Gotoxy(horix, verty); cout<<auxiliar->frecuencia;
+			Gotoxy(35,verty); cout<<"|";
+	
+			horix+=16;
+			Gotoxy(horix,verty);
+			fprintf(stdout, "%.2f",CalcularPorcentaje(auxiliar->frecuencia));
+			cout<<"%"<< endl;
+			Gotoxy(57,verty); cout<<"|";
+	
+			auxiliar = auxiliar->siguiente;
+			verty +=1;
+			horix = 9;
+		}
+		cout << endl <<"|--------------------------------------------------------|\n";
+	} else{
+		cout << "El archivo no tiene caracteres del alfabeto español";
 	}
+	
 }
 
 bool VerificarSeparadores(unsigned char caracter){
 	if(caracter == ' ' || caracter == ',' || caracter == '.' || 
-		caracter == '-' || caracter == '/' || caracter == ':' || caracter == 10){
+		caracter == '-' || caracter == '/' || caracter == ':' || caracter == 10 || caracter == ';' ){
 			return true;
 	}
 	else{
@@ -190,3 +221,11 @@ double CalcularPorcentaje(int frecuencia){ //calcula el porcentaje de frecuencia
 	return frecuencia*100.0/nCaracteres;
 }
 
+void Gotoxy(short x, short y) // se invoca la funcion GoToXY la cual admite dos valores enteros uno para X y otro para Y
+{
+	HANDLE hConsoleOutput;
+	COORD Cursor_Pos = {x, y};
+
+	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleCursorPosition(hConsoleOutput, Cursor_Pos);
+}
