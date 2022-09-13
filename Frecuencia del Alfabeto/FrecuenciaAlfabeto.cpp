@@ -73,16 +73,17 @@ void LeerArchivo(string nombreArchivo){
     else{
         while(!archivo.eof()){ //mientras no sea el final del archivo
         	caracter = archivo.get(); //lee un caracter del flujo
-        	nTotal++; //se le agrega uno al total de caracteres
             caracter = ConvertirCaracter(caracter); //covierte el caracter a formato estandar (sin acentos y minusculas)
 			caracterValido = VerificarCaracter(caracter); //valida que el caracter pertenezca al alfabeto español
-			if(VerificarSeparadores(caracter)){ //si la palabra no ha sido contada
-				if(palabraContada == false){ //si el caracter es un separador
+			if(VerificarSeparadores(caracter)){ //si la letra es un separador
+				nTotal++; //se le agrega uno al total de caracteres
+				if(palabraContada == false){ //si la palabra no se ha contado
 					nPalabras++; //suma al contador de palabras
 					palabraContada = true;	//di que la palabra ya se conto
 				}	
 			}
 			if(caracterValido){ //si el caracter pertenece al alfabeto espanol
+				nTotal++; //se le agrega uno al total de caracteres
 				AgregarFrecuencia(caracter); //Suma a la frecuencia de la letra
 				nCaracteres++; //suma a la cantidad de caracteres del total
 				palabraContada = false; //di que la palabra no ha sido contada, la estoy comenzando
@@ -204,12 +205,11 @@ void ImprimirFrecuencia(){
 	} else{
 		cout << "El archivo no tiene caracteres del alfabeto español";
 	}
-	
 }
 
 bool VerificarSeparadores(unsigned char caracter){
-	if(caracter == ' ' || caracter == ',' || caracter == '.' || 
-		caracter == '-' || caracter == '/' || caracter == ':' || caracter == 10 || caracter == ';' ){
+	if(caracter == ' ' || caracter == ',' || caracter == '.' || caracter == '(' || caracter == ')' ||
+		caracter == '-' || caracter == '/' || caracter == ':' || caracter == 10 || caracter == ';' || caracter == '?' ){
 			return true;
 	}
 	else{
@@ -218,7 +218,7 @@ bool VerificarSeparadores(unsigned char caracter){
 		
 }
 double CalcularPorcentaje(int frecuencia){ //calcula el porcentaje de frecuencia de cada letra
-	return frecuencia*100.0/nCaracteres;
+	return frecuencia*100.0/nTotal;
 }
 
 void Gotoxy(short x, short y) // se invoca la funcion GoToXY la cual admite dos valores enteros uno para X y otro para Y
