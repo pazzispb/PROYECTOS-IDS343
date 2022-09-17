@@ -282,6 +282,12 @@ bool BuscarValor(Nodo* arbol, int buscar) {
 	}
 }
 
+/*
+	cout << "  +---------------------------------------------------------+" << endl;
+	cout << "  |                     R E C O R R I D O S                 |" << endl;
+	cout << "  +---------------------------------------------------------+" << endl;
+*/
+
 //Pre-orden -> raíz, izquierdo y después derecho
 void PreOrden(Nodo* arbol) {
 	if (arbol == NULL){ //Arbol vacio
@@ -320,7 +326,11 @@ void PostOrden(Nodo* arbol) {
 	} 
 }
 
-
+/*
+	cout << "  +---------------------------------------------------------+" << endl;
+	cout << "  |                      E L I M I N A C I O N              |" << endl;
+	cout << "  +---------------------------------------------------------+" << endl;
+*/
 
 //Buscar y eliminar un nodo del arbol
 void BuscarEliminar(Nodo* arbol, int n) { //busca el nodo a eliminar
@@ -424,6 +434,11 @@ void DestruirNodo(Nodo* NodoDestruir) {
 	delete NodoDestruir; //libera el espacio de la memoria
 }
 
+/*
+	cout << "  +---------------------------------------------------------+" << endl;
+	cout << "  |                      V A L I D A C I O N               |" << endl;
+	cout << "  +---------------------------------------------------------+" << endl;
+*/
 int CapturarEntrada(string mensaje)
 {
 	string entrada; //variable para almacenar la entrada
