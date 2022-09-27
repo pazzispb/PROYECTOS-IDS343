@@ -9,7 +9,7 @@ Autor:  Pazzis Paulino 1103790
 		Johan Contreras 1106473
 		Luis Adames 1106170
 		Paola Saldana 1104081
-Fecha:  19 - Septiembre - 2022
+Fecha:  26 - Septiembre - 2022
 
 */
 
@@ -34,7 +34,8 @@ void InsertarNodo(Nodo*& arbol, int n, Nodo* padre); //Inserta el nodo en el arb
 void MostrarArbol(Nodo* arbol, int contador); //Muestra todos los nodos del arbol binario
 void BuscarEliminar(Nodo* arbol, int n); //busca el nodo que se desea eliminar
 void EliminarNodo(Nodo* NodoEliminar); //elimina el nodo
-Nodo* Minimo(Nodo* arbol); //identifica el nodo que reemplazara a otro nodo cuando tenga dos ramas como hijo
+Nodo* Minimo(Nodo* arbol); //identifica el minimo valor del subarbol derecho
+Nodo* Maximo(Nodo* arbol); //identifica el maximo valor del subarbol izquierdo
 void Reemplazar(Nodo* arbol, Nodo* nuevoNodo); //hace el reemplazo de los nodos al momento de eliminar
 void DestruirNodo(Nodo* NodoDestruir); //libera el espacio en memoria que ocupa un nodo
 bool BuscarValor(Nodo* arbol, int buscar); //busca si un valor se encuentra en el arbol binario
@@ -46,7 +47,7 @@ bool ValidarEntrada(string entrada); //valida que la entrada sea numerica
 void EmptyTree(); //Salida que indica que el arbol esta vacio
 void BannerEntrada(); //Bienvenida al programa
 void BannerFin(); //Salida del programa
-
+void Prueba(int i);
 
 Nodo* arbol = NULL; //raiz del arbol
 
@@ -62,7 +63,7 @@ int main()
 void Menu() {
 	int decision, entrada;
 	int contador = 0; //para mostrar arbol de manera ordenada
-
+	//Prueba(0);
 	do {
 		system("cls"); //para limpiar la pantalla
 		BannerEntrada(); //titulo del programa
@@ -362,9 +363,18 @@ void BuscarEliminar(Nodo* arbol, int n) {
 //Eliminar el nodo encontrando
 void EliminarNodo(Nodo* NodoEliminar) {
 	if (NodoEliminar->izquierdo && NodoEliminar->derecho) { //Verificar si es una rama con dos hijos
-		Nodo* menor = Minimo(NodoEliminar->derecho); //Se busca el dato que va a reemplazar el Nodo que queremos borrar
-		NodoEliminar->dato = menor->dato;  //Se reemplaza el Nodo a elimina
-		EliminarNodo(menor); //Se borra el Nodo que sustituyo
+		Nodo* reemplazo = NodoEliminar->izquierdo;
+		
+		if(NodoEliminar->derecho->izquierdo != NULL){ //si el hijo izquierdo del hijo derecho del que se va a elimina no es nulo
+			reemplazo = Minimo(NodoEliminar->derecho); //Se busca el dato que va a reemplazar el Nodo que queremos borrar
+		}
+		else if(NodoEliminar->izquierdo->derecho != NULL){ // si el hijo derecho del hijo izquierdo del que se va a eliminar no es nulo
+			reemplazo = Maximo(NodoEliminar->izquierdo); //Se busca el dato que va a reemplazar el Nodo que queremos borrar
+		}
+		
+		NodoEliminar->dato = reemplazo->dato;  //Se reemplaza el Nodo a elimina
+		
+		EliminarNodo(reemplazo); //Se borra el Nodo que sustituyo
 	}
 	else if (NodoEliminar->izquierdo) { //Verificar si es una rama con solo un hijo izquierdo
 		Reemplazar(NodoEliminar, NodoEliminar->izquierdo);
@@ -386,7 +396,7 @@ void EliminarNodo(Nodo* NodoEliminar) {
 	}
 }
 
-//Función para determinar el nodo más izquierdo posible
+//Función para determinar el nodo con el valor mas pequeño del subarbol derecho
 Nodo* Minimo(Nodo* arbol) {
 	if (arbol->izquierdo) { //Verifica si tiene más hijos izquierdos
 		//Función recursiva
@@ -397,7 +407,16 @@ Nodo* Minimo(Nodo* arbol) {
 	}
 }
 
-	
+//Función para determinar el nodo con el valor mas grande del subarbol izquierdo
+Nodo* Maximo(Nodo* arbol) {
+	if (arbol->derecho) { //Verifica si tiene más hijos derechos
+		//Función recursiva
+		return Maximo(arbol->derecho);
+	}
+	else { //cuando ya no tenga más hijos izquierdos
+		return arbol;
+	}
+}	
 //Función para reemplazar dos Nodos (1ro - nodo seleccionado) (2ndo - nodo a reemplazar)
 void Reemplazar(Nodo* arbol, Nodo* nuevoNodo) {
 	//Verificar si el nodo tiene padre
@@ -505,7 +524,28 @@ void BannerFin() {
 	cout << "  +----------------------------------------------+" << endl;
 	system("pause");
 }
-
+void Prueba(int i){
+	switch(i){
+		case 1:
+			InsertarNodo(arbol, 8, NULL);
+			InsertarNodo(arbol, 3, NULL);
+			InsertarNodo(arbol, 10, NULL);
+			InsertarNodo(arbol, 1, NULL);
+			InsertarNodo(arbol, 6, NULL);
+			InsertarNodo(arbol, 4, NULL);
+			InsertarNodo(arbol, 7, NULL);
+			InsertarNodo(arbol, 14, NULL);
+			InsertarNodo(arbol, 13, NULL);
+		break;
+		case 2:
+			InsertarNodo(arbol, 15, NULL);
+			InsertarNodo(arbol, 13, NULL);
+			InsertarNodo(arbol, 18, NULL);
+			InsertarNodo(arbol, 7, NULL);
+			InsertarNodo(arbol, 14, NULL);
+		break;	
+	}
+}
 //Arbol de ejemplo 
 /*
 				8
