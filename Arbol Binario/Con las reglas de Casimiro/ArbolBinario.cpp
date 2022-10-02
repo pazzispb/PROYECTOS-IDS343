@@ -2,7 +2,7 @@
 // Materia - Estructuras de Datos y Algoritmos I
 /*
 
-Asunto:
+Asunto: Elaborar un programa que haga mantenimiento a un arbol binario de busqueda
 
 Autor:  Pazzis Paulino 1103790
 		Huan Hao Wu 1104326
@@ -63,7 +63,7 @@ int main()
 void Menu() {
 	int decision, entrada;
 	int contador = 0; //para mostrar arbol de manera ordenada
-	//Prueba(0);
+	//Prueba(3);
 	do {
 		system("cls"); //para limpiar la pantalla
 		BannerEntrada(); //titulo del programa
@@ -543,6 +543,17 @@ void Prueba(int i){
 			InsertarNodo(arbol, 18, NULL);
 			InsertarNodo(arbol, 7, NULL);
 			InsertarNodo(arbol, 14, NULL);
+		break;
+		case 3:
+			InsertarNodo(arbol, 8, NULL);
+			InsertarNodo(arbol, 5, NULL);
+			InsertarNodo(arbol, 11, NULL);
+			InsertarNodo(arbol, 3, NULL);
+			InsertarNodo(arbol, 6, NULL);
+			InsertarNodo(arbol, 7, NULL);
+			InsertarNodo(arbol, 17, NULL);
+			InsertarNodo(arbol, 13, NULL);
+
 		break;	
 	}
 }
