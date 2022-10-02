@@ -2,13 +2,14 @@
 // Materia - Estructuras de Datos y Algoritmos I
 /*
 
-Asunto: 
+Asunto: Realizar un programa en C++ que simule las torres de hanoi
 
 Autor:  Pazzis Paulino 1103790
 		Huan Hao Wu 1104326
 		Johan Contreras 1106473
 		Luis Adames 1106170
 		Paola Saldana 1104081
+		
 Fecha:  03 - octubre - 2022
 
 */
